@@ -25,4 +25,13 @@ class CuentaTest {
         assertEquals(1000.12345, cuenta.getSaldo().doubleValue());
         assertFalse(false);
     }
+
+    @Test
+    void test_referencia_cuenta() {
+        Cuenta cuenta = new Cuenta("Victor", new BigDecimal("123.123"));
+        Cuenta cuenta2 = new Cuenta("Victor", new BigDecimal("123.123"));
+
+        //Para comparar dos objetos por valor en sus atributos, sobreescribir el metodo equeals.
+        assertEquals(cuenta2,cuenta);
+    }
 }
