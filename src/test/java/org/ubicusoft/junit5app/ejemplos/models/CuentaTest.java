@@ -82,6 +82,14 @@ class CuentaTest {
         assertEquals("1050.123", cuenta.getSaldo().toPlainString());
     }
 
+    @RepeatedTest(value = 10, name = "Repeticion {currentRepetition} de {totalRepetitions}")
+    void test_debito_cuenta_con_repeticion_10_veces() {
+        Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.123"));
+        cuenta.debito(new BigDecimal("100"));
+        assertNotNull(cuenta.getSaldo());
+        assertEquals("900.123", cuenta.getSaldo().toPlainString());
+    }
+
     @Test
     @DisplayName("Comprobando la generacion de excepcion cuando el dinero es insuficiente")
     void test_dinero_insuficiente_exceptions_cuenta() {
