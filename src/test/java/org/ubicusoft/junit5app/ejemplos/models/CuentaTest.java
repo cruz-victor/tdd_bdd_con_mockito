@@ -83,7 +83,11 @@ class CuentaTest {
     }
 
     @RepeatedTest(value = 10, name = "Repeticion {currentRepetition} de {totalRepetitions}")
-    void test_debito_cuenta_con_repeticion_10_veces() {
+    void test_debito_cuenta_con_repeticion_10_veces(RepetitionInfo info) {
+        if (info.getCurrentRepetition()==3){
+            System.out.println("Estamos en la repeticion "+info.getCurrentRepetition());
+        }
+
         Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.123"));
         cuenta.debito(new BigDecimal("100"));
         assertNotNull(cuenta.getSaldo());
