@@ -2,6 +2,8 @@ package org.ubicusoft.junit5app.ejemplos.models;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.ubicusoft.junit5app.ejemplos.exceptions.DineroInsfuficienteException;
 
 import java.math.BigDecimal;
@@ -92,6 +94,14 @@ class CuentaTest {
         cuenta.debito(new BigDecimal("100"));
         assertNotNull(cuenta.getSaldo());
         assertEquals("900.123", cuenta.getSaldo().toPlainString());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings={"100","200","300","500","700","2000"})
+    void test_debito_cuenta_con_parametro(String monto) {
+        cuenta.debito(new BigDecimal(monto));
+        assertNotNull(cuenta.getSaldo());
+        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
     }
 
     @Test
