@@ -67,4 +67,40 @@ class CuentaTest {
 
         assertEquals(esperado,actual);
     }
+
+    @Test
+    void testTransferirDineroCuentas() {
+        Cuenta cuenta1=new Cuenta("Victor",new BigDecimal("1000"));
+        Cuenta cuenta2=new Cuenta("Grace Adriana",new BigDecimal("2000"));
+
+        Banco banco=new Banco();
+        banco.setNombre("Banco del estado");
+        banco.transferir(cuenta2,cuenta1, new BigDecimal("200"));
+        assertEquals("1800", cuenta2.getSaldo().toPlainString());
+        assertEquals("1200",cuenta1.getSaldo().toPlainString());
+    }
+
+    @Test
+    void testRelacionBancoCuentas() {
+        Cuenta cuenta1=new Cuenta("Victor",new BigDecimal("1000"));
+        Cuenta cuenta2=new Cuenta("Grace Adriana",new BigDecimal("2000"));
+
+        Banco banco=new Banco();
+        banco.addCuenta(cuenta1);
+        banco.addCuenta(cuenta2);
+
+        banco.setNombre("Banco del Estado");
+        banco.transferir(cuenta2,cuenta1, new BigDecimal("200"));
+        assertEquals("1800", cuenta2.getSaldo().toPlainString());
+        assertEquals("1200",cuenta1.getSaldo().toPlainString());
+        assertEquals(2,banco.getCuentas().size());
+        assertEquals("Banco del Estado", cuenta1.getBanco().getNombre());//Acoplado. Ne se cumple la ley demeter "Principio de menor conocimiento".
+        assertEquals("Victor", banco.getCuentas().stream()
+                .filter(c->c.getPersona().equals("Victor"))
+                .findFirst()
+                .get().getPersona());
+        assertTrue(banco.getCuentas().stream().anyMatch(c->c.getPersona().equals("Victor")));
+
+
+    }
 }
