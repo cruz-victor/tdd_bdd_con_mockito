@@ -3,12 +3,15 @@ package org.ubicusoft.junit5app.ejemplos.models;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.*;
 import org.ubicusoft.junit5app.ejemplos.exceptions.DineroInsfuficienteException;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumingThat;
@@ -102,6 +105,35 @@ class CuentaTest {
         cuenta.debito(new BigDecimal(monto));
         assertNotNull(cuenta.getSaldo());
         assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1,100","2,200","3,300","4,500","5,700","6,2000"})
+    void test_debito_cuenta_con_parametro_csv(String index,String monto) {
+        System.out.println("Index="+index+", valor="+monto);
+        cuenta.debito(new BigDecimal(monto));
+        assertNotNull(cuenta.getSaldo());
+        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/data.csv")
+    void test_debito_cuenta_con_parametro_archivo_csv(String monto) {
+        cuenta.debito(new BigDecimal(monto));
+        assertNotNull(cuenta.getSaldo());
+        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
+    }
+
+    @ParameterizedTest
+    @MethodSource("montoList")
+    void test_debito_cuenta_con_parametro_metodo_csv(String monto) {
+        cuenta.debito(new BigDecimal(monto));
+        assertNotNull(cuenta.getSaldo());
+        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
+    }
+
+    private static List<String> montoList() {
+        return Arrays.asList("100","200","300","500","700","2000");
     }
 
     @Test
