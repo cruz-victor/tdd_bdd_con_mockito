@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumingThat;
@@ -99,31 +98,36 @@ class CuentaTest {
         assertEquals("900.123", cuenta.getSaldo().toPlainString());
     }
 
-    @ParameterizedTest
-    @ValueSource(strings={"100","200","300","500","700","2000"})
-    void test_debito_cuenta_con_parametro(String monto) {
-        cuenta.debito(new BigDecimal(monto));
-        assertNotNull(cuenta.getSaldo());
-        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
+    @Tag("Parametrizadas")
+    @Nested
+    class PruebaParametrizadas{
+        @ParameterizedTest
+        @ValueSource(strings={"100","200","300","500","700","2000"})
+        void test_debito_cuenta_con_parametro(String monto) {
+            cuenta.debito(new BigDecimal(monto));
+            assertNotNull(cuenta.getSaldo());
+            assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
+        }
+
+        @ParameterizedTest
+        @CsvSource({"1,100","2,200","3,300","4,500","5,700","6,2000"})
+        void test_debito_cuenta_con_parametro_csv(String index,String monto) {
+            System.out.println("Index="+index+", valor="+monto);
+            cuenta.debito(new BigDecimal(monto));
+            assertNotNull(cuenta.getSaldo());
+            assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
+        }
+
+        @ParameterizedTest
+        @CsvFileSource(resources = "/data.csv")
+        void test_debito_cuenta_con_parametro_archivo_csv(String monto) {
+            cuenta.debito(new BigDecimal(monto));
+            assertNotNull(cuenta.getSaldo());
+            assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
+        }
     }
 
-    @ParameterizedTest
-    @CsvSource({"1,100","2,200","3,300","4,500","5,700","6,2000"})
-    void test_debito_cuenta_con_parametro_csv(String index,String monto) {
-        System.out.println("Index="+index+", valor="+monto);
-        cuenta.debito(new BigDecimal(monto));
-        assertNotNull(cuenta.getSaldo());
-        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "/data.csv")
-    void test_debito_cuenta_con_parametro_archivo_csv(String monto) {
-        cuenta.debito(new BigDecimal(monto));
-        assertNotNull(cuenta.getSaldo());
-        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0);
-    }
-
+    @Tag("Parametrizadas")
     @ParameterizedTest
     @MethodSource("montoList")
     void test_debito_cuenta_con_parametro_metodo_csv(String monto) {
@@ -205,6 +209,7 @@ class CuentaTest {
         );
     }
 
+    @Tag("SistemaOperativo")
     @Nested
     class PruebasSistemaOperativo{
         @Test
@@ -220,6 +225,7 @@ class CuentaTest {
         }
     }
 
+    @Tag("VersionJdk")
     @Nested
     class PruebasVersionJdk{
         @Test
@@ -233,6 +239,7 @@ class CuentaTest {
         }
     }
 
+    @Tag("PropiedadesSistema")
     @Nested
     class PruebasPropiedadesSistema{
         @Test
@@ -260,6 +267,7 @@ class CuentaTest {
         }
     }
 
+    @Tag("VariablesEntorno")
     @Nested
     class PruebasVariablesEntorno{
         @Test
