@@ -1,6 +1,7 @@
 package org.ubicusoft.junit5app.ejemplos.models;
 
 import org.junit.jupiter.api.Test;
+import org.ubicusoft.junit5app.ejemplos.exceptions.DineroInsfuficienteException;
 
 import java.math.BigDecimal;
 
@@ -33,5 +34,37 @@ class CuentaTest {
 
         //Para comparar dos objetos por valor en sus atributos, sobreescribir el metodo equeals.
         assertEquals(cuenta2,cuenta);
+    }
+
+    @Test
+    void test_debito_cuenta(){
+        Cuenta cuenta=new Cuenta("Victor",new BigDecimal("1000.123"));
+        cuenta.debito(new BigDecimal("100"));
+        assertNotNull(cuenta.getSaldo());
+        assertEquals("900.123", cuenta.getSaldo().toPlainString());
+    }
+
+    @Test
+    void test_credito_cuenta(){
+        Cuenta cuenta=new Cuenta("Victor",new BigDecimal("1000.123"));
+        cuenta.credito(new BigDecimal("50"));
+        assertEquals("1050.123", cuenta.getSaldo().toPlainString());
+    }
+
+    @Test
+    void testDineroInsuficienteExceptionsCuenta() {
+        Cuenta cuenta=new Cuenta("Victor",new BigDecimal("1000.123"));
+
+        Exception exception=assertThrows(DineroInsfuficienteException.class, ()->{
+            cuenta.debito(new BigDecimal("1001.123"));
+        });
+//        Exception exception=assertThrows(NumberFormatException.class, ()->{
+//            cuenta.debito(new BigDecimal("1001.123"));
+//        });
+
+        String actual=exception.getMessage();
+        String esperado="Dinero Insuficiente";
+
+        assertEquals(esperado,actual);
     }
 }

@@ -1,5 +1,7 @@
 package org.ubicusoft.junit5app.ejemplos.models;
 
+import org.ubicusoft.junit5app.ejemplos.exceptions.DineroInsfuficienteException;
+
 import java.math.BigDecimal;
 import java.util.Locale;
 
@@ -39,5 +41,18 @@ public class Cuenta {
         }
 
         return this.persona.equals(c.getPersona()) && this.saldo.equals(c.getSaldo());
+    }
+
+    public void debito(BigDecimal monto) {
+        BigDecimal nuevoSaldo=this.saldo.subtract(monto);
+        if (nuevoSaldo.compareTo(BigDecimal.ZERO)<0){
+            throw new DineroInsfuficienteException("Dinero Insuficiente");
+        }
+
+        this.saldo=nuevoSaldo;
+    }
+
+    public void credito(BigDecimal monto) {
+        this.saldo=this.saldo.add(monto);
     }
 }
