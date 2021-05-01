@@ -1,11 +1,15 @@
 package org.ubicusoft.junit5app.ejemplos.models;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.*;
 import org.ubicusoft.junit5app.ejemplos.exceptions.DineroInsfuficienteException;
 
 import java.math.BigDecimal;
+import java.util.Map;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS) //Por defecto el ciclo de vida es por metodo.
 class CuentaTest {
@@ -146,4 +150,82 @@ class CuentaTest {
                 }
         );
     }
+
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    void test_solo_windows() {
+
+    }
+
+    @Test
+    @EnabledOnOs(OS.LINUX)
+    void test_solo_linux() {
+
+    }
+
+    @Test
+    @EnabledOnJre(JRE.JAVA_8)
+    void test_solo_jdk8() {
+    }
+
+    @Test
+    @EnabledOnJre(JRE.JAVA_15)
+    void test_solo_jdk15() {
+    }
+
+    @Test
+    void test_imprimir_system_properties() {
+        Properties properties=System.getProperties();
+        properties.forEach((k,v)-> System.out.println(k+":"+v));
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named="java.version", matches = "14.0.2")
+    void test_comprobar_version_java() {
+
+    }
+
+    @Test
+    @DisabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
+    void test_deshabilitar_si_la_arquitectura_es_x64() {
+
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "user.name",matches = "vic")
+    void test_habilitar_si_es_user_name_habilitado() {
+
+    }
+
+    @Test
+    void test_imprimir_variables_ambiente() {
+        Map<String, String> getenv = System.getenv();
+        getenv.forEach((k,v)-> System.out.println(k+"="+v));
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named = "JAVA_HOME", matches = "C://Program Files//Java//jdk1.8.0_271")
+    void test_java_home() {
+    }
+
+    @Test
+    @EnabledIfEnvironmentVariable(named="NUMBER_OF_PROCESSORS",matches = "4")
+    void test_numero_procesadores() {
+    }
+
+    @Test
+    void test_debito_cuenta_con_assuming() {
+        boolean esDev="dev".equals(System.getProperty("ENV"));
+
+        Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.123"));
+        cuenta.debito(new BigDecimal("100"));
+
+        assumingThat(esDev,()->{
+            //assertNotNull(cuenta.getSaldo());
+            assertNotNull(null);
+        });
+
+        assertEquals("900.123", cuenta.getSaldo().toPlainString());
+    }
+
 }
