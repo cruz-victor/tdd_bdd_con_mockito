@@ -1,30 +1,55 @@
 package org.ubicusoft.junit5app.ejemplos.models;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.ubicusoft.junit5app.ejemplos.exceptions.DineroInsfuficienteException;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS) //Por defecto el ciclo de vida es por metodo.
 class CuentaTest {
 
-    @Test
-    void test_nombre_cuenta() {
-        Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.12345"));
-        //cuenta.setPersona("Victor");
+    Cuenta cuenta;
 
-        String esperado = "Victor".toUpperCase();
+    @BeforeEach
+    void initMetodoTest(){
+        this.cuenta = new Cuenta("Victor", new BigDecimal("1000.12345"));
+        System.out.println("Iniciando el metodo.");
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.out.println("Finalizando el metodo de preuba.");
+    }
+
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("Inicializando el test");
+    }
+
+    @AfterAll
+    static void afterAll() {
+        System.out.println("Finalizando el test");
+    }
+
+    @Test
+    @DisplayName("Comprabando el nombre de la cuenta.")
+    void test_nombre_cuenta() {
+        //Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.12345"));
+
+        String esperado = "Victor";
         String real = cuenta.getPersona();
 
         assertEquals(esperado, real);
     }
 
     @Test
+    @DisplayName("Compranbo el saldo de la cuenta")
     void test_saldo_cuenta() {
-        Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.12345"));
-        assertEquals(1000.12345, cuenta.getSaldo().doubleValue());
-        assertFalse(false);
+        //Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.12345"));
+        assertEquals(1000.12345, cuenta.getSaldo().doubleValue(),"El saldo no es el esperado.");
+        assertFalse(false,"No se cumple la condicion False.");
     }
 
     @Test
@@ -37,6 +62,7 @@ class CuentaTest {
     }
 
     @Test
+    @DisplayName("Comprobando la accion debitar en un cuenta")
     void test_debito_cuenta() {
         Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.123"));
         cuenta.debito(new BigDecimal("100"));
@@ -45,6 +71,7 @@ class CuentaTest {
     }
 
     @Test
+    @DisplayName("Comprobando la accion credito en un cuenta")
     void test_credito_cuenta() {
         Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.123"));
         cuenta.credito(new BigDecimal("50"));
@@ -52,7 +79,8 @@ class CuentaTest {
     }
 
     @Test
-    void testDineroInsuficienteExceptionsCuenta() {
+    @DisplayName("Comprobando la generacion de excepcion cuando el dinero es insuficiente")
+    void test_dinero_insuficiente_exceptions_cuenta() {
         Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.123"));
 
         Exception exception = assertThrows(DineroInsfuficienteException.class, () -> {
@@ -69,7 +97,9 @@ class CuentaTest {
     }
 
     @Test
-    void testTransferirDineroCuentas() {
+    @DisplayName("Comprobando la transferencia entre cuentas")
+    @Disabled
+    void test_transferir_dinero_entre_cuentas() {
         Cuenta cuenta1 = new Cuenta("Victor", new BigDecimal("1000"));
         Cuenta cuenta2 = new Cuenta("Grace Adriana", new BigDecimal("2000"));
 
@@ -81,7 +111,7 @@ class CuentaTest {
     }
 
     @Test
-    void testRelacionBancoCuentas() {
+    void test_relacion_banco_con_cuentas() {
         Cuenta cuenta1 = new Cuenta("Victor", new BigDecimal("1000"));
         Cuenta cuenta2 = new Cuenta("Grace Adriana", new BigDecimal("2000"));
 
@@ -115,6 +145,5 @@ class CuentaTest {
                     assertTrue(banco.getCuentas().stream().anyMatch(c -> c.getPersona().equals("Victor")));
                 }
         );
-
     }
 }
