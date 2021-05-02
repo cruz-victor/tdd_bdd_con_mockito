@@ -87,9 +87,20 @@ class ExamenServiceImplTest {
     @Test
     void buscar_un_examen_por_nombre_con_preguntas() {
         when(repository.findAll()).thenReturn(Datos.EXAMENES);
-        when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
+        when(preguntaRepository.findPreguntasPorExamenId(1L)).thenReturn(Datos.PREGUNTAS);
 
         Examen examen=service.findExamenPorNombreConPreguntas("Matematicas");
+        assertEquals(5, examen.getPreguntas().size());
+        assertTrue(examen.getPreguntas().contains("Pregunta 1"));
+        assertTrue(examen.getNombre().equals("Matematicas"));
+    }
+
+    @Test
+    void buscar_un_examen_por_nombre_con_preguntas_con_any() {
+        when(repository.findAll()).thenReturn(Datos.EXAMENES);
+        when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
+
+        Examen examen=service.findExamenPorNombreConPreguntas("Historia");
         assertEquals(5, examen.getPreguntas().size());
         assertTrue(examen.getPreguntas().contains("Pregunta 1"));
     }
