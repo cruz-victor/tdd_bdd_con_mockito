@@ -18,5 +18,7 @@ public class Datos {
             "Pregunta 3",
             "Pregunta 4",
             "Pregunta 5") ;
+
+    public static final Examen EXAMEN = new Examen(4L,"Fisica");
 }
 

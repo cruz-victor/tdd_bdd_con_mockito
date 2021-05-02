@@ -8,14 +8,11 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.ubicuosoft.models.Examen;
 import org.ubicuosoft.repositories.ExamenRepository;
-import org.ubicuosoft.repositories.ExamenRepositoryImpl;
 import org.ubicuosoft.repositories.PreguntaRepository;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,7 +41,8 @@ class ExamenServiceImplTest {
 
     @Test
     void find_examen_por_nombre() {
-        ExamenRepository repository=new ExamenRepositoryImpl();
+//        ExamenRepository repository=new ExamenRepositoryImpl();
+        ExamenRepository repository=mock(ExamenRepository.class);
         ExamenService service=new ExamenServiceImpl(repository, preguntaRepository);
 
         //Que pasa si quieremos hacer un test para comprobar si el servicio devuelve una lista vacia?
@@ -149,6 +147,22 @@ class ExamenServiceImplTest {
         verify(preguntaRepository).findPreguntasPorExamenId(anyLong()); //Aqui fallara porque no fue invocado
     }
 
+    @Test
+    void guardar_examen_con_preguntas() {
+        //That
+        Examen examenConPreguntas=Datos.EXAMEN;
+        examenConPreguntas.setPreguntas(Datos.PREGUNTAS);
 
+        //When
+        when(repository.guardar(any(Examen.class))).thenReturn(Datos.EXAMEN);
 
+        //Then
+        Examen examen=service.guardar(examenConPreguntas);
+        assertNotNull(examen.getId());
+        assertEquals(4L, examen.getId());
+        assertEquals("Fisica", examen.getNombre());
+
+        verify(repository).guardar(any(Examen.class));
+        verify(preguntaRepository).guardarVarias(anyList());
+    }
 }
