@@ -7,10 +7,12 @@ import org.junit.jupiter.params.provider.*;
 import org.ubicusoft.junit5app.ejemplos.exceptions.DineroInsfuficienteException;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumingThat;
@@ -43,8 +45,12 @@ class CuentaTest {
 
     @Test
     @DisplayName("Comprabando el nombre de la cuenta.")
-    void test_nombre_cuenta() {
+    void test_nombre_cuenta(TestInfo testInfo, TestReporter testReporter) {
         //Cuenta cuenta = new Cuenta("Victor", new BigDecimal("1000.12345"));
+
+        System.out.println("Ejecutando: "+testInfo.getDisplayName());
+        System.out.println("Reporte: ");
+        testReporter.publishEntry("Publicando un mensaje desde el test_nombre_cuenta");
 
         String esperado = "Victor";
         String real = cuenta.getPersona();
@@ -303,6 +309,20 @@ class CuentaTest {
         });
 
         assertEquals("900.123", cuenta.getSaldo().toPlainString());
+    }
+
+    @Test
+    //@Timeout(5) //5 segundos
+    @Timeout(value = 500, unit = TimeUnit.MICROSECONDS)
+    void test_timeout_5_segundos() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(6);
+    }
+
+    @Test
+    void test_timeout_con_assertions() {
+        assertTimeout(Duration.ofSeconds(5),()->{
+            TimeUnit.MILLISECONDS.sleep(5500);
+        });
     }
 }
 
