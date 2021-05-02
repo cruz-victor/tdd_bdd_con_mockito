@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="97ce62d3-5c50-4772-85db-03aa4f964336" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Junit5_app.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ubicusoft/junit5app/ejemplos/exceptions/DineroInsfuficienteException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ubicusoft/junit5app/ejemplos/models/Banco.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ubicusoft/junit5app/ejemplos/models/Cuenta.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/ubicusoft/junit5app/ejemplos/models/CuentaTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/ubicusoft/junit5app/ejemplos/exceptions/DineroInsfuficienteException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/ubicusoft/junit5app/ejemplos/models/Banco.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/ubicusoft/junit5app/ejemplos/models/Cuenta.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/ubicusoft/junit5app/ejemplos/models/CuentaTest$PruebaParametrizadas.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/ubicusoft/junit5app/ejemplos/models/CuentaTest$PruebasPropiedadesSistema.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/ubicusoft/junit5app/ejemplos/models/CuentaTest$PruebasSistemaOperativo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/ubicusoft/junit5app/ejemplos/models/CuentaTest$PruebasVariablesEntorno.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/ubicusoft/junit5app/ejemplos/models/CuentaTest$PruebasVersionJdk.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/org/ubicusoft/junit5app/ejemplos/models/CuentaTest.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ruHv9DCtMFgoJP3Kvio8OGcfnU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.ubicusoft.junit5app.ejemplos.models" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.ubicusoft.junit5app.ejemplos.models" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.ubicusoft.junit5app.ejemplos.models" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Maven.Junit5_app [test]">
+    <configuration name="CuentaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Junit5_app" />
+      <option name="PACKAGE_NAME" value="org.ubicusoft.junit5app.ejemplos.models" />
+      <option name="MAIN_CLASS_NAME" value="org.ubicusoft.junit5app.ejemplos.models.CuentaTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea -DENV=prod" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CuentaTest.test_nombre_cuenta" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Junit5_app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.ubicusoft.junit5app.ejemplos.models.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.ubicusoft.junit5app.ejemplos.models" />
+      <option name="MAIN_CLASS_NAME" value="org.ubicusoft.junit5app.ejemplos.models.CuentaTest" />
+      <option name="METHOD_NAME" value="test_nombre_cuenta(org.junit.jupiter.api.TestInfo,org.junit.jupiter.api.TestReporter)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CuentaTest.test_prueba_timeout" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Junit5_app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.ubicusoft.junit5app.ejemplos.models.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.ubicusoft.junit5app.ejemplos.models" />
+      <option name="MAIN_CLASS_NAME" value="org.ubicusoft.junit5app.ejemplos.models.CuentaTest" />
+      <option name="METHOD_NAME" value="test_prueba_timeout" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CuentaTest.test_timeout_con_assertions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Junit5_app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.ubicusoft.junit5app.ejemplos.models.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.ubicusoft.junit5app.ejemplos.models" />
+      <option name="MAIN_CLASS_NAME" value="org.ubicusoft.junit5app.ejemplos.models.CuentaTest" />
+      <option name="METHOD_NAME" value="test_timeout_con_assertions" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Junit5_app [test]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="test" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.CuentaTest" />
+      <item itemvalue="JUnit.CuentaTest.test_nombre_cuenta" />
+      <item itemvalue="JUnit.CuentaTest.test_prueba_timeout" />
+      <item itemvalue="JUnit.CuentaTest.test_timeout_con_assertions" />
+      <item itemvalue="Maven.Junit5_app [test]" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Maven.Junit5_app [test]" />
+        <item itemvalue="JUnit.CuentaTest.test_timeout_con_assertions" />
+        <item itemvalue="JUnit.CuentaTest.test_prueba_timeout" />
+        <item itemvalue="JUnit.CuentaTest" />
+        <item itemvalue="JUnit.CuentaTest.test_nombre_cuenta" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="97ce62d3-5c50-4772-85db-03aa4f964336" name="Default Changelist" comment="" />
+      <created>1619819285928</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619819285928</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
