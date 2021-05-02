@@ -34,8 +34,11 @@ public class ExamenServiceImpl implements ExamenService {
     @Override
     public Examen findExamenPorNombreConPreguntas(String nombre) {
         Examen examen = findExamenPorNombre(nombre);
-        List<String> preguntas =preguntaRepository.findPreguntasPorExamenId(examen.getId());
-        examen.setPreguntas(preguntas);
+        if (!(examen ==null)){
+            List<String> preguntas =preguntaRepository.findPreguntasPorExamenId(examen.getId());
+            examen.setPreguntas(preguntas);
+        }
+
         return examen;
     }
 }
