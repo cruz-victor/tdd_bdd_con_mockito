@@ -20,5 +20,11 @@ public class Datos {
             "Pregunta 5") ;
 
     public static final Examen EXAMEN = new Examen(4L,"Fisica");
+
+    public static final List<Examen> EXAMENES_ID_NULL = Arrays.asList(
+            new Examen(null,"Matematicas"),
+            new Examen(null,"Lenguaje"),
+            new Examen(null,"Historia"));
+
 }
 

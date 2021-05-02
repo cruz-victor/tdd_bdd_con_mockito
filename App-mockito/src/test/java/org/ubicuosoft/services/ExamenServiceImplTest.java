@@ -206,4 +206,18 @@ class ExamenServiceImplTest {
         verify(repository).guardar(any(Examen.class));
         verify(preguntaRepository).guardarVarias(anyList());
     }
+
+    @Test
+    void manejo_excepcion() {
+        //GIVE
+        when(repository.findAll()).thenReturn(Datos.EXAMENES_ID_NULL);//Lista de examenes con ID=null
+        when(preguntaRepository.findPreguntasPorExamenId(isNull())).thenThrow(IllegalArgumentException.class);//Al pasar un parametro diferente de Long (ID=null) deberia generar una excepcion.
+        //WHEN - THEN
+        Exception exception=assertThrows(IllegalArgumentException.class,()->{
+            service.findExamenPorNombreConPreguntas("Matematicas");
+        });
+        assertEquals(IllegalArgumentException.class, exception.getClass());//Se cumple con la excepcion esperada.
+        verify(repository).findAll();//verificar si se ha invocado al parametro findAll()
+        verify(preguntaRepository).findPreguntasPorExamenId(isNull());//verificar si se ha invocado al parametro findPregundasPorExamenId con parametro null
+    }
 }
