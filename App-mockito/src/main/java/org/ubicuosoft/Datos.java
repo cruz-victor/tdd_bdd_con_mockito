@@ -1,4 +1,4 @@
-package org.ubicuosoft.services;
+package org.ubicuosoft;
 
 import org.ubicuosoft.models.Examen;
 

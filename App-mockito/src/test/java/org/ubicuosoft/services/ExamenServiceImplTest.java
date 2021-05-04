@@ -10,9 +10,12 @@ import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import org.ubicuosoft.Datos;
 import org.ubicuosoft.models.Examen;
 import org.ubicuosoft.repositories.ExamenRepository;
+import org.ubicuosoft.repositories.ExamenRepositoryImpl;
 import org.ubicuosoft.repositories.PreguntaRepository;
+import org.ubicuosoft.repositories.PreguntaRepositoryImpl;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,10 +26,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class ExamenServiceImplTest {
     @Mock
-    ExamenRepository examenRepository;
+    //ExamenRepository examenRepository;
+    ExamenRepositoryImpl examenRepository;
 
     @Mock
-    PreguntaRepository preguntaRepository;
+    //PreguntaRepository preguntaRepository;
+    PreguntaRepositoryImpl preguntaRepository;
 
     @InjectMocks
     ExamenServiceImpl service;
@@ -344,5 +349,17 @@ class ExamenServiceImplTest {
         assertEquals("Fisica", examen.getNombre());
         verify(examenRepository).guardar(any(Examen.class));
         verify(preguntaRepository).guardarVarias(anyList());
+    }
+
+    @Test
+    void test_do_call_real_method() {
+        //GIVEN
+        when(examenRepository.findAll()).thenReturn(Datos.EXAMENES);
+        doCallRealMethod().when(preguntaRepository).findPreguntasPorExamenId(anyLong()); //Invacion a un metodo real (No interface, sino implementacion)
+        //WHEN
+        Examen examen = service.findExamenPorNombreConPreguntas("Matematicas");
+        //THEN
+        assertEquals(1L,examen.getId());
+        assertEquals("Matematicas", examen.getNombre());
     }
 }
