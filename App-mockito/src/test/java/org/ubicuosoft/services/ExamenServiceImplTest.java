@@ -17,6 +17,7 @@ import org.ubicuosoft.repositories.ExamenRepositoryImpl;
 import org.ubicuosoft.repositories.PreguntaRepository;
 import org.ubicuosoft.repositories.PreguntaRepositoryImpl;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -361,5 +362,30 @@ class ExamenServiceImplTest {
         //THEN
         assertEquals(1L,examen.getId());
         assertEquals("Matematicas", examen.getNombre());
+    }
+
+    @Test
+    void test_spy() {
+        //Spy, no es un 100% mock, es un hibrido.
+        //En Spy, cuando invocamos un metodo va ir al metodo real.
+        //Un Spy es un clon del objeto real.
+        //No es recomendable usar espias (spy)
+        //El mock es 100% simulado.
+
+        //GIVEN
+        ExamenRepository examenRepository=spy(ExamenRepositoryImpl.class);
+        PreguntaRepository preguntaRepository=spy(PreguntaRepositoryImpl.class);
+        ExamenService examenService=new ExamenServiceImpl(examenRepository, preguntaRepository);
+
+        List<String> preguntas= Arrays.asList("Pregunta N");
+        //when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(preguntas);
+        doReturn(preguntas).when(preguntaRepository).findPreguntasPorExamenId(anyLong()); //(Hibrido)Aqui se mockea el metodO findPreguntasPorId
+        //WHEN
+        Examen examen=examenService.findExamenPorNombreConPreguntas("Matematicas");
+        //THEN
+        assertEquals(1L, examen.getId());
+        assertEquals("Matematicas", examen.getNombre());
+        assertEquals(1, examen.getPreguntas().size());
+        assertTrue(examen.getPreguntas().contains("Pregunta N"));
     }
 }
