@@ -220,4 +220,16 @@ class ExamenServiceImplTest {
         verify(repository).findAll();//verificar si se ha invocado al parametro findAll()
         verify(preguntaRepository).findPreguntasPorExamenId(isNull());//verificar si se ha invocado al parametro findPregundasPorExamenId con parametro null
     }
+
+    @Test
+    void argument_matchers() {
+        //GIVEN
+        when(repository.findAll()).thenReturn(Datos.EXAMENES);
+        when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
+        //WHEN
+        service.findExamenPorNombreConPreguntas("Matematicas");
+        //THEN
+        verify(repository).findAll();
+        verify(preguntaRepository).findPreguntasPorExamenId(argThat(arg->arg!=null && arg>=1));
+    }
 }
