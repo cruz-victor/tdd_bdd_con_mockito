@@ -388,4 +388,20 @@ class ExamenServiceImplTest {
         assertEquals(1, examen.getPreguntas().size());
         assertTrue(examen.getPreguntas().contains("Pregunta N"));
     }
+
+    @Test
+    void test_orden_invocaciones_mocks() {
+        //GIVEN
+        when(examenRepository.findAll()).thenReturn(Datos.EXAMENES);
+        //WHEN
+        service.findExamenPorNombreConPreguntas("Matematicas");
+        service.findExamenPorNombreConPreguntas("Lenguaje");
+        //THEN
+        //Veriificar el orden de ejecucion de los metodos mockeados
+        InOrder inOrder=inOrder(examenRepository, preguntaRepository);
+        inOrder.verify(examenRepository).findAll();
+        inOrder.verify(preguntaRepository).findPreguntasPorExamenId(1L);
+        inOrder.verify(examenRepository).findAll();
+        inOrder.verify(preguntaRepository).findPreguntasPorExamenId(2L);
+    }
 }
