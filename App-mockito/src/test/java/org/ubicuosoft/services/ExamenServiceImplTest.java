@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
@@ -25,10 +24,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class ExamenServiceImplTest {
     @Mock
     ExamenRepository repository;
+
     @Mock
     PreguntaRepository preguntaRepository;
+
     @InjectMocks
     ExamenServiceImpl service;
+
+    @Captor
+    ArgumentCaptor<Long> captor;
 
     @BeforeEach
     void setUp() {
@@ -231,5 +235,52 @@ class ExamenServiceImplTest {
         //THEN
         verify(repository).findAll();
         verify(preguntaRepository).findPreguntasPorExamenId(argThat(arg->arg!=null && arg>=1));
+    }
+
+    @Test
+    void argument_matchers_personalizado() {
+        //GIVEN
+        when(repository.findAll()).thenReturn(Datos.EXAMENES);
+        when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
+        //WHEN
+        service.findExamenPorNombreConPreguntas("Matematicas");
+        //THEN
+        verify(repository).findAll();
+        verify(preguntaRepository).findPreguntasPorExamenId(argThat(new MiArgMatchers()));
+    }
+
+    @Test
+    void argument_matchers_con_labmdas() {
+        //GIVEN
+        when(repository.findAll()).thenReturn(Datos.EXAMENES);
+        when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
+        //WHEN
+        service.findExamenPorNombreConPreguntas("Matematicas");
+        //THEN
+        verify(repository).findAll();
+        verify(preguntaRepository).findPreguntasPorExamenId(argThat((argument)->argument!=null && argument>0));
+    }
+
+    public static class MiArgMatchers implements ArgumentMatcher<Long>{
+
+        private Long argument;
+        @Override
+        public boolean matches(Long argument) {
+            this.argument=argument;
+            return argument!=null && argument>0;
+        }
+    }
+
+    @Test
+    void capturar_el_argumento() {
+        when(repository.findAll()).thenReturn(Datos.EXAMENES);
+        when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
+
+        service.findExamenPorNombreConPreguntas("Matematicas");
+
+        //ArgumentCaptor<Long> captor=ArgumentCaptor.forClass(Long.class);
+        verify(preguntaRepository).findPreguntasPorExamenId(captor.capture());
+
+        assertEquals(1L, captor.getValue());
     }
 }
