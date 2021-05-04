@@ -302,8 +302,9 @@ class ExamenServiceImplTest {
     @Test
     void test_do_answer() {
         //GIVEN
-        //Modelar la respuesta del metodo findExamenPorNombreConPreguntas.
+        //Modelar la respuesta del metodo findAll.
         when(examenRepository.findAll()).thenReturn(Datos.EXAMENES);
+        //Modelar la respuesta del metodo findExamenPorNombreConPreguntas.
         doAnswer(invocation->{
             Long id=invocation.getArgument(0);
             return id==1L? Datos.PREGUNTAS:Collections.emptyList();
