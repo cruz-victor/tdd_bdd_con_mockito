@@ -283,4 +283,19 @@ class ExamenServiceImplTest {
 
         assertEquals(1L, captor.getValue());
     }
+
+    @Test
+    void test_do_throw() {
+        //GIVEN
+        //doAlgo.
+        //doThrow, cuando se lanza una excepcion.(usar cuando el metodo "void" no devuele nada).
+        Examen examen=Datos.EXAMEN;
+        examen.setPreguntas(Datos.PREGUNTAS);
+        doThrow(IllegalArgumentException.class).when(preguntaRepository).guardarVarias(anyList());//Simular la invocacion del metodo "void" guardarPreguntas
+
+        //WHEN - THEN
+        assertThrows(IllegalArgumentException.class,()->{
+            service.guardar(examen);
+        });
+    }
 }
