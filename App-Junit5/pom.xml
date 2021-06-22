@@ -8,6 +8,7 @@
     <artifactId>Junit5_app</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+<!--    Plugin para ejecutar los test desde consola-->
     <build>
         <plugins>
             <plugin>
@@ -21,6 +22,7 @@
         </plugins>
     </build>
 
+<!--    Junit5-->
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

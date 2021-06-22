@@ -418,5 +418,7 @@ class ExamenServiceImplTest {
         verify(preguntaRepository, atLeastOnce()).findPreguntasPorExamenId(1L);
         verify(preguntaRepository, atMost(1)).findPreguntasPorExamenId(1L);
         verify(preguntaRepository, atMostOnce()).findPreguntasPorExamenId(1L);
+
+        //verifyNoInteractions(preguntaRepository);
     }
 }
