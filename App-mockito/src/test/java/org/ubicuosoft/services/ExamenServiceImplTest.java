@@ -166,7 +166,7 @@ class ExamenServiceImplTest {
         when(examenRepository.findAll()).thenReturn(Datos.EXAMENES);
         when(preguntaRepository.findPreguntasPorExamenId(anyLong())).thenReturn(Datos.PREGUNTAS);
         //WHEN
-        Examen examen=service.findExamenPorNombreConPreguntas("NOEXISTE");
+        Examen examen=service.findExamenPorNombreConPreguntas("Historiaaa");//
         //THEN
         assertNull(examen);
         //Verificar si se han llamados metodos.
@@ -356,7 +356,7 @@ class ExamenServiceImplTest {
     void test_do_call_real_method() {
         //GIVEN
         when(examenRepository.findAll()).thenReturn(Datos.EXAMENES);
-        doCallRealMethod().when(preguntaRepository).findPreguntasPorExamenId(anyLong()); //Invacion a un metodo real (No interface, sino implementacion)
+        doCallRealMethod().when(preguntaRepository).findPreguntasPorExamenId(anyLong()); //Invocacion a un metodo real (No interface, sino implementacion)
         //WHEN
         Examen examen = service.findExamenPorNombreConPreguntas("Matematicas");
         //THEN
