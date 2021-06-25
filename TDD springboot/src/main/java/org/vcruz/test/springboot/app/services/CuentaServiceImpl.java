@@ -1,5 +1,6 @@
 package org.vcruz.test.springboot.app.services;
 
+import org.springframework.stereotype.Service;
 import org.vcruz.test.springboot.app.models.Banco;
 import org.vcruz.test.springboot.app.models.Cuenta;
 import org.vcruz.test.springboot.app.repositories.BancoRepository;
@@ -7,6 +8,7 @@ import org.vcruz.test.springboot.app.repositories.CuentaRepository;
 
 import java.math.BigDecimal;
 
+@Service //Para usar en mock springboot
 public class CuentaServiceImpl implements CuentaService {
 
     private CuentaRepository cuentaRepository;
