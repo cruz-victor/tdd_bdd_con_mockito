@@ -7,12 +7,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.vcruz.test.springboot.app.models.Cuenta;
 import org.vcruz.test.springboot.app.repositories.CuentaRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//Para los test de repositorio usar h2.
 @DataJpaTest //Habilita, el contexto de persistencia, h2, repositorios, inyeccion de dependencia de spring
 public class TestRepositorio {
     @Autowired
@@ -48,5 +50,53 @@ public class TestRepositorio {
         List<Cuenta> cuentas=cuentaRepository.findAll();
         assertFalse(cuentas.isEmpty());
         assertEquals(2,cuentas.size());
+    }
+
+    @Test
+    void testSave() {
+        //Given
+        Cuenta cuentaVictor=new Cuenta(null, "Victor", new BigDecimal("3000"));
+
+        //When
+        Cuenta cuentaSave=cuentaRepository.save(cuentaVictor);
+
+        //Then
+        assertEquals("Victor", cuentaSave.getPersona());
+        assertEquals("3000", cuentaSave.getSaldo().toPlainString());
+        //assertEquals(3, cuentaVictor.getId());
+    }
+
+    @Test
+    void testUpdate() {
+        //Given
+        Cuenta cuentaVictor=new Cuenta(null, "Victor", new BigDecimal("3000"));
+
+        //When
+        Cuenta cuentaSave=cuentaRepository.save(cuentaVictor);
+
+        //Then
+        assertEquals("Victor", cuentaSave.getPersona());
+        assertEquals("3000", cuentaSave.getSaldo().toPlainString());
+
+        //When
+        cuentaSave.setSaldo(new BigDecimal("3800"));
+        Cuenta cuentaActualizada=cuentaRepository.save(cuentaSave);
+
+        //Then
+        assertEquals("Victor", cuentaActualizada.getPersona());
+        assertEquals("3800", cuentaActualizada.getSaldo().toPlainString());
+    }
+
+    @Test
+    void deleteTest() {
+        Cuenta cuenta=cuentaRepository.findById(1L).orElseThrow(NoSuchElementException::new);
+        assertEquals("Victor", cuenta.getPersona());
+        cuentaRepository.delete(cuenta);
+
+        assertThrows(NoSuchElementException.class, ()->{
+            cuentaRepository.findById(1L).orElseThrow(NoSuchElementException::new);
+        });
+
+        assertEquals(1, cuentaRepository.findAll().size());
     }
 }

@@ -1,6 +1,7 @@
 package org.vcruz.test.springboot.app.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.vcruz.test.springboot.app.models.Banco;
 import org.vcruz.test.springboot.app.models.Cuenta;
 import org.vcruz.test.springboot.app.repositories.BancoRepository;
@@ -21,23 +22,27 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Cuenta findById(Long id) {
         return cuentaRepository.findById(id).orElse(new Cuenta());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int revisarTotalTransferencias(Long bancoId) {
         Banco banco=bancoRepository.findById(bancoId).orElse(new Banco());
         return banco.getTotalTransferencia();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal revisarSaldo(Long cuentaId) {
         Cuenta cuenta=cuentaRepository.findById(cuentaId).orElse(new Cuenta());
         return cuenta.getSaldo();
     }
 
     @Override
+    @Transactional()
     public void transferir(Long numeroCuentaOrigen, Long numeroCuentaDestino, BigDecimal monto, Long bancoId) {
 
         Cuenta cuentaOrigen=cuentaRepository.findById(numeroCuentaOrigen).orElse(new Cuenta());
