@@ -112,7 +112,7 @@ class TestServicios {
         assertEquals("1000", saldoDestino.toPlainString());
 
         int total=service.revisarTotalTransferencias(1L);
-        assertEquals(1, total);
+        assertEquals(0, total);
 
         verify(cuentaRepository, times(3)).findById(1L);
         verify(cuentaRepository, times(2)).findById(2L);
