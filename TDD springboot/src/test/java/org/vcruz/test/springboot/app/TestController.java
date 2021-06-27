@@ -11,15 +11,17 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.vcruz.test.springboot.app.controller.CuentaController;
+import org.vcruz.test.springboot.app.models.Cuenta;
 import org.vcruz.test.springboot.app.models.TransaccionDto;
 import org.vcruz.test.springboot.app.services.CuentaService;
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+//import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -86,5 +88,49 @@ public class TestController {
         .andExpect(jsonPath("$.mensaje").value("Transferencia realizada con exito"))
         .andExpect(jsonPath("$.transaccion.cuentaOrigenId").value(dto.getCuentaOrigenId()))
         .andExpect(content().json(objectMapper.writeValueAsString(response)));
+    }
+
+    @Test
+    void testListar() throws Exception {
+        //GIVEN
+        List<Cuenta> cuentas= (List<Cuenta>) Arrays.asList(
+                Datos.crearCuenta001().get(),
+                Datos.crearCuenta002().get()
+        );
+        when(cuentaService.findAll()).thenReturn(cuentas);
+        //WHEN
+        mvc.perform(MockMvcRequestBuilders.get("/api/cuentas").contentType(MediaType.APPLICATION_JSON))
+        //THEN
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].persona").value("Victor"))
+                .andExpect(jsonPath("$[1].persona").value("Jhon"))
+                .andExpect(jsonPath("$[0].saldo").value("1000"))
+                .andExpect(jsonPath("$[1].saldo").value("1000"))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(content().json(objectMapper.writeValueAsString(cuentas)));
+    }
+
+    @Test
+    void testGuardar() throws Exception {
+        //GIVEN
+        Cuenta cuenta=new Cuenta(null, "Pepe", new BigDecimal("3000"));
+        when(cuentaService.save(any())).then(invocation->{
+            Cuenta c=invocation.getArgument(0);
+            c.setId(3L);
+            return c;
+        });
+
+        //WHEN
+        mvc.perform(MockMvcRequestBuilders.post("/api/cuentas").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cuenta)))
+        //THEN
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(3)))
+                .andExpect(jsonPath("$.persona", is("Pepe")))
+                .andExpect(jsonPath("$.saldo",is(3000)));
+
+        verify(cuentaService).save(any());
     }
 }

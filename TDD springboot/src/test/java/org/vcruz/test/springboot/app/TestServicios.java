@@ -13,6 +13,8 @@ import org.vcruz.test.springboot.app.repositories.CuentaRepository;
 import org.vcruz.test.springboot.app.services.CuentaService;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -138,5 +140,20 @@ class TestServicios {
         assertEquals("Victor", cuenta1.getPersona());
 
         verify(cuentaRepository,times(2)).findById(1L);
+    }
+
+    @Test
+    void testFindAll() {
+        //GIVEN
+        List<Cuenta> datos= Arrays.asList(Datos.crearCuenta001().get(),Datos.crearCuenta002().get());
+        when(cuentaRepository.findAll()).thenReturn(datos);
+
+        //WHEN
+        List<Cuenta> cuentas=service.findAll();
+
+        //THEN
+        assertFalse(cuentas.isEmpty());
+        assertEquals(2,cuentas.size());
+        assertTrue(cuentas.contains(Datos.crearCuenta002().get()));
     }
 }

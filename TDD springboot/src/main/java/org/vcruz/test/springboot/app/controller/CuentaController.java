@@ -10,6 +10,7 @@ import org.vcruz.test.springboot.app.services.CuentaService;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,10 +20,23 @@ public class CuentaController {
     @Autowired
     private CuentaService cuentaService;
 
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<Cuenta> listar(){
+        return cuentaService.findAll();
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Cuenta detalle(@PathVariable(name = "id") Long id){ //Si el argumento se llama igual se puede omitor el 'name'
         return cuentaService.findById(id);
+    }
+
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cuenta guardar(@RequestBody Cuenta cuenta)
+    {
+        return cuentaService.save(cuenta);
     }
 
     @PostMapping("/transferir")
@@ -37,4 +51,6 @@ public class CuentaController {
 
         return ResponseEntity.ok(response);
     }
+
+
 }

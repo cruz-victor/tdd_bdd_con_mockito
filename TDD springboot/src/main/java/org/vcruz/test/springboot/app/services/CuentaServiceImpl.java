@@ -8,6 +8,7 @@ import org.vcruz.test.springboot.app.repositories.BancoRepository;
 import org.vcruz.test.springboot.app.repositories.CuentaRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service //Para usar en mock springboot
 public class CuentaServiceImpl implements CuentaService {
@@ -22,9 +23,19 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
+    public List<Cuenta> findAll() {
+        return cuentaRepository.findAll();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Cuenta findById(Long id) {
         return cuentaRepository.findById(id).orElse(new Cuenta());
+    }
+
+    @Override
+    public Cuenta save(Cuenta cuenta) {
+        return null;
     }
 
     @Override
