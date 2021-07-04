@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,14 +86,17 @@ class TestIntegracionWebTestClient {
 
     @Test
     @Order(2)
-    void testDetalle() {
+    void testDetalle() throws JsonProcessingException {
+        Cuenta cuentaEsperada=new Cuenta(1L, "Victor", new BigDecimal("900"));
+
         webTestClient.get().uri("/api/cuentas/1")
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody()
                 .jsonPath("$.persona").isEqualTo("Victor")
-                .jsonPath("$.saldo").isEqualTo(900);
+                .jsonPath("$.saldo").isEqualTo(900)
+                .json(objectMapper.writeValueAsString(cuentaEsperada));
     }
 
     @Test
@@ -108,5 +112,46 @@ class TestIntegracionWebTestClient {
                     assertEquals("Grace", cuenta.getPersona());
                     assertEquals("2100.00", cuenta.getSaldo().toPlainString());
                 });
+    }
+
+    @Test
+    @Order(4)
+    void testListar() {
+        webTestClient.get().uri("api/cuentas")
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$[0].persona").isEqualTo("Victor")
+                .jsonPath("$[0].id").isEqualTo(1)
+                .jsonPath("$[0].saldo").isEqualTo(900)
+                .jsonPath("$[1].persona").isEqualTo("Grace")
+                .jsonPath("$[1].id").isEqualTo(2)
+                .jsonPath("$[1].saldo").isEqualTo(2100)
+                .jsonPath("$").isArray()
+                .jsonPath("$").value(hasSize(2));
+    }
+
+    @Test
+    @Order(5)
+    void testListar2() {
+        webTestClient.get().uri("api/cuentas")
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(Cuenta.class)
+                .consumeWith(response->{
+                    List<Cuenta> cuentas=response.getResponseBody();
+                    assertNotNull(cuentas);
+                    assertEquals(2, cuentas.size());
+                    assertEquals(1L,cuentas.get(0).getId());
+                    assertEquals("Victor", cuentas.get(0).getPersona());
+                    assertEquals(900, cuentas.get(0).getSaldo().intValue());
+                    assertEquals(2L, cuentas.get(1).getId());
+                    assertEquals("Grace", cuentas.get(1).getPersona());
+                    assertEquals("2100.0", cuentas.get(1).getSaldo().toPlainString());
+                })
+                .hasSize(2)
+                .value(hasSize(2));
     }
 }
