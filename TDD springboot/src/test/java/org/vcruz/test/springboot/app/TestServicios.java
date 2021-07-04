@@ -154,6 +154,27 @@ class TestServicios {
         //THEN
         assertFalse(cuentas.isEmpty());
         assertEquals(2,cuentas.size());
-        assertTrue(cuentas.contains(Datos.crearCuenta002().get()));
+        assertTrue(cuentas.contains(Datos.crearCuenta002().get()));//Que la lista de cuentas contenga la cuenta 2.
+
+        verify(cuentaRepository).findAll();
+    }
+
+    @Test
+    void testSave() {
+        //GIVEN
+        Cuenta cuentaVic=new Cuenta(null, "Victor", new BigDecimal("3000"));
+        when(cuentaRepository.save(any())).then(invocation->{
+            Cuenta c=invocation.getArgument(0);//recupera la cuenta del parmetro 0. Save(Cuenta)
+            c.setId(3L);
+            return c;
+        });
+        //WHEN
+        Cuenta cuenta=service.save(cuentaVic);
+        //THEN
+        assertEquals("Victor", cuenta.getPersona());
+        assertEquals( 3, cuenta.getId());
+        assertEquals("3000", cuenta.getSaldo().toPlainString());
+
+        verify(cuentaRepository).save(any());
     }
 }
