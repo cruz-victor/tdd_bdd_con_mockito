@@ -154,4 +154,25 @@ class TestIntegracionWebTestClient {
                 .hasSize(2)
                 .value(hasSize(2));
     }
+
+    @Test
+    @Order(6)
+    void testGuardar() {
+        //GIVEN
+        Cuenta cuenta=new Cuenta(null,"Pepe", new BigDecimal("3000"));
+
+        //WHEN
+        webTestClient.post().uri("/api/cuentas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(cuenta)
+                .exchange()
+        //THEN
+                .expectStatus().isCreated()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(3L)
+                .jsonPath("$.persona").isEqualTo("Pepe")
+                .jsonPath("$.persona").value(is("Pepe"))
+                .jsonPath("$.saldo").isEqualTo(3000);
+    }
 }
