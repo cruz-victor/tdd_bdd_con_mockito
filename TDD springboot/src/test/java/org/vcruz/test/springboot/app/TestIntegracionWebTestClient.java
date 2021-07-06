@@ -173,6 +173,65 @@ class TestIntegracionWebTestClient {
                 .jsonPath("$.id").isEqualTo(3L)
                 .jsonPath("$.persona").isEqualTo("Pepe")
                 .jsonPath("$.persona").value(is("Pepe"))
+                .jsonPath("$.persona").value(nombre->{assertEquals("Pepe", nombre);})
                 .jsonPath("$.saldo").isEqualTo(3000);
+    }
+
+    @Test
+    @Order(7)
+    void testGuardar2() {
+        //GIVEN
+        Cuenta cuenta=new Cuenta(null,"Pepa", new BigDecimal("3500"));
+
+        //WHEN
+        webTestClient.post().uri("/api/cuentas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(cuenta)
+                .exchange()
+                //THEN
+                .expectStatus().isCreated()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(Cuenta.class)
+                .consumeWith(response->{
+                   Cuenta c=response.getResponseBody();
+                   assertEquals(4L, c.getId());
+                   assertEquals(4L, c.getId());
+                   assertEquals("Pepa", c.getPersona());
+                   assertEquals("3500", c.getSaldo().toPlainString());
+                });
+
+    }
+
+
+    @Test
+    @Order(8)
+    void testEliminar() {
+        webTestClient.get().uri("/api/cuentas")
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(Cuenta.class)
+                .hasSize(4);
+
+        webTestClient.delete().uri("/api/cuentas/3")
+                .exchange()
+                .expectStatus().isNoContent()
+                .expectBody().isEmpty();
+
+        webTestClient.get().uri("/api/cuentas")
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBodyList(Cuenta.class)
+                .hasSize(3);
+
+//        webTestClient.get().uri("/api/cuentas/3")
+//                .exchange()
+//                .expectStatus().is5xxServerError();
+
+        webTestClient.get().uri("/api/cuentas/3")
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody().isEmpty();
     }
 }

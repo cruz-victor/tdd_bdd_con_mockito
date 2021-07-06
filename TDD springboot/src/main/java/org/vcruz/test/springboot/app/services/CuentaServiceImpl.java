@@ -31,7 +31,7 @@ public class CuentaServiceImpl implements CuentaService {
     @Override
     @Transactional(readOnly = true)
     public Cuenta findById(Long id) {
-        return cuentaRepository.findById(id).orElse(new Cuenta());
+        return cuentaRepository.findById(id).orElseThrow(()->new RuntimeException("No existe el ID"));
     }
 
     @Transactional
@@ -70,5 +70,11 @@ public class CuentaServiceImpl implements CuentaService {
         int totalTransferencia=banco.getTotalTransferencia();
         banco.setTotalTransferencia(++totalTransferencia);
         bancoRepository.save(banco);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        cuentaRepository.deleteById(id);
     }
 }
