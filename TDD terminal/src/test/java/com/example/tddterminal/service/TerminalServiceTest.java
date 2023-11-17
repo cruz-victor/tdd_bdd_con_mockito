@@ -1,5 +1,6 @@
 package com.example.tddterminal.service;
 
+import com.example.tddterminal.exception.ElementWasNotRemoved;
 import com.example.tddterminal.model.Terminal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,10 +14,8 @@ public class TerminalServiceTest {
     void should_look_a_terminal_without_parameters(){
         //GIVEN
         TerminalService terminalService=new TerminalService();
-
         //WHEN
         List<Terminal> terminals= terminalService.findTerminalByName();
-
         //THEN
         Assertions.assertFalse(terminals.isEmpty());
     }
@@ -45,16 +44,25 @@ public class TerminalServiceTest {
     }
 
     @Test
-    void should_modify_a_terminal(){
+    void should_remove_a_termianl(){
         //GIVEN
+        TerminalService terminalService=new TerminalService();
+        Terminal currentTerminal=new Terminal(1L,"Terminal LP");
         //WHEN
+        terminalService.deleteTerminal(currentTerminal);
         //THEN
+        Assertions.assertTrue(true);
     }
 
     @Test
-    void should_remove_a_termianl(){
+    void should_modify_a_terminal(){
         //GIVEN
+        TerminalService terminalService=new TerminalService();
+        Terminal newTerminal=new Terminal(1L,"Terminal LP");
+        newTerminal.setName("Terminal LPP");
         //WHEN
+        Terminal modifiedTerminal = terminalService.updateTerminal(newTerminal);
         //THEN
+        Assertions.assertEquals(newTerminal, modifiedTerminal);
     }
 }
